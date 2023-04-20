@@ -5,7 +5,7 @@ class Settings extends React.Component {
   render() {
     return (
       <div data-testid="settings-title">
-        Settings
+        Settings!
       </div>
     );
   }

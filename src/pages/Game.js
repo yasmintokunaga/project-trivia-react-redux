@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestionsAnswers } from '../services/fetch';
-import PropTypes from 'prop-types';
+import './Game.css';
 
 class Game extends React.Component {
   state = {
@@ -9,6 +10,7 @@ class Game extends React.Component {
     score: 0,
     currentQuestion: {},
     shuffleAnswers: [],
+    verifyAnswer: false,
   };
 
   componentDidMount() {
@@ -48,8 +50,30 @@ class Game extends React.Component {
     return shuffleAnswers;
   };
 
+  configDataTestIdButton = (answer, index) => {
+    const { currentQuestion: { correct_answer: correct } } = this.state;
+    return answer === correct ? 'correct-answer' : `wrong-answer-${index}`;
+  };
+
+  styleButton = (answer) => {
+    const { verifyAnswer, currentQuestion: { correct_answer: correct } } = this.state;
+    if (verifyAnswer && answer === correct) return 'correct-answer';
+    if (verifyAnswer && answer !== correct) return 'incorrect-answer';
+  };
+
+  handleClick = () => {
+    this.setState({
+      verifyAnswer: true,
+    });
+  };
+
   render() {
-    const { playerName, score, currentQuestion, shuffleAnswers } = this.state;
+    const {
+      playerName,
+      score,
+      currentQuestion,
+      shuffleAnswers,
+    } = this.state;
 
     return (
       <div>
@@ -68,10 +92,9 @@ class Game extends React.Component {
           { shuffleAnswers.map((answer, index) => (
             <button
               key={ answer }
-              data-testid={
-                answer === currentQuestion.correct_answer
-                  ? 'correct-answer' : `wrong-answer-${index}`
-              }
+              data-testid={ this.configDataTestIdButton(answer, index) }
+              className={ this.styleButton(answer) }
+              onClick={ () => this.handleClick() }
             >
               { answer }
             </button>

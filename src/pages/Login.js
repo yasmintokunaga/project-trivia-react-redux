@@ -45,7 +45,6 @@ class Login extends React.Component {
     history.push('/Settings');
   };
 
-
   render() {
     const { name, email, disabledButtonEnter } = this.state;
     return (
@@ -74,13 +73,13 @@ class Login extends React.Component {
           Play
         </button>
         <button
-            type="button"
-            data-testid="btn-settings"
-            id="btnSettings"
-            className="btnSettings"
-            onClick={ this.redirectSettings }
-          >
-            Settings
+          type="button"
+          data-testid="btn-settings"
+          id="btnSettings"
+          className="btnSettings"
+          onClick={ this.redirectSettings }
+        >
+          Settings
         </button>
       </main>
 

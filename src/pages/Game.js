@@ -11,13 +11,30 @@ class Game extends React.Component {
     currentQuestion: {},
     shuffleAnswers: [],
     verifyAnswer: false,
+    counter: 30,
+    disabledButtons: false,
   };
 
   componentDidMount() {
     const playerName = localStorage.getItem('name') || '';
     this.setState({ playerName });
     this.returnFetchQuastionAnswers();
+    this.startTimer();
   }
+
+  startTimer = () => {
+    const timeOut = 1000;
+    setInterval(() => {
+      const { counter } = this.state;
+      this.setState({ counter: counter === 0 ? 0 : counter - 1 });
+      if (counter <= 0) {
+        this.setState({
+          disabledButtons: true,
+        });
+        this.handleClick();
+      }
+    }, timeOut);
+  };
 
   returnFetchQuastionAnswers = async () => {
     const data = await fetchQuestionsAnswers();
@@ -73,6 +90,8 @@ class Game extends React.Component {
       score,
       currentQuestion,
       shuffleAnswers,
+      counter,
+      disabledButtons,
     } = this.state;
 
     return (
@@ -95,10 +114,15 @@ class Game extends React.Component {
               data-testid={ this.configDataTestIdButton(answer, index) }
               className={ this.styleButton(answer) }
               onClick={ () => this.handleClick() }
+              disabled={ disabledButtons }
             >
               { answer }
             </button>
           ))}
+        </div>
+        <div>
+          <p>Contagem Regressiva</p>
+          { counter }
         </div>
       </div>
     );

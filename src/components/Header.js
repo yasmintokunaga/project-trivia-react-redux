@@ -1,22 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
+import { connect } from 'react-redux';
 
 class Header extends Component {
-  state = {
-    gravatarUrl: '',
-  };
-
-  componentDidMount() {
-    const email = localStorage.getItem('email');
-    const hash = md5(email);
-    this.setState({ gravatarUrl: `https://www.gravatar.com/avatar/${hash}` });
-  }
-
   render() {
-    const { playerName, score } = this.props;
-    const { gravatarUrl } = this.state;
-
+    const { playerName, score, email } = this.props;
+    const hash = md5(email);
+    const gravatarUrl = `https://www.gravatar.com/avatar/${hash}`;
     return (
       <header>
         <img
@@ -25,7 +16,11 @@ class Header extends Component {
           alt="Profile"
         />
         <h2 data-testid="header-player-name">{playerName}</h2>
-        <h3 data-testid="header-score">{`Score: ${score}`}</h3>
+        <span>
+          Score:
+          {' '}
+          <h3 data-testid="header-score">{score}</h3>
+        </span>
       </header>
     );
   }
@@ -34,6 +29,13 @@ class Header extends Component {
 Header.propTypes = {
   playerName: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
+  email: PropTypes.string.isRequired,
 };
 
-export default Header;
+const mapStateToProps = (state) => ({
+  playerName: state.player.name,
+  score: state.player.score,
+  email: state.player.gravatarEmail,
+});
+
+export default connect(mapStateToProps)(Header);

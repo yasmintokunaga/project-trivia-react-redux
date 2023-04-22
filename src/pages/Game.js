@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { fetchQuestionsAnswers } from '../services/fetch';
 import './Game.css';
@@ -13,6 +14,9 @@ class Game extends React.Component {
     verifyAnswer: false,
     counter: 30,
     disabledButtons: false,
+    showNextButton: false,
+    questionIndex: 0,
+    totalQuestions: 5,
   };
 
   componentDidMount() {
@@ -31,25 +35,25 @@ class Game extends React.Component {
         this.setState({
           disabledButtons: true,
         });
-        this.handleClick();
+        this.handleClick(null, true);
       }
     }, timeOut);
   };
 
   returnFetchQuastionAnswers = async () => {
+    const { questionIndex } = this.state;
     const data = await fetchQuestionsAnswers();
-
     const codeError = 3;
     if (data.response_code === codeError) {
       const { history } = this.props;
       localStorage.clear();
       return history.push('/');
     }
-
     const { results } = data;
-    const { correct_answer: correct, incorrect_answers: incorrects } = results[0];
+    const { correct_answer: correct,
+      incorrect_answers: incorrects } = results[questionIndex];
     this.setState({
-      currentQuestion: results[0],
+      currentQuestion: results[questionIndex],
       shuffleAnswers: this.displayShuffleAnswers(correct, incorrects),
     });
   };
@@ -78,10 +82,44 @@ class Game extends React.Component {
     if (verifyAnswer && answer !== correct) return 'incorrect-answer';
   };
 
-  handleClick = () => {
+  handleClick = (answer, isTimeout = false) => {
+    const { dispatch } = this.props;
+    const MAGIC_NUMBER = 10;
+    const { counter, currentQuestion, score } = this.state;
+    const { difficulty, correct_answer: correctAnswer } = currentQuestion;
+    if (!isTimeout && answer === correctAnswer) {
+      const difficultyValue = { easy: 1, medium: 2, hard: 3 };
+      const newScore = score + MAGIC_NUMBER + (counter * difficultyValue[difficulty]);
+      dispatch({ type: 'UPDATE_SCORE', newScore });
+      this.setState({
+        score: newScore,
+      });
+    }
     this.setState({
       verifyAnswer: true,
+      showNextButton: true,
     });
+  };
+
+  handleNextQuestion = () => {
+    const { history } = this.props;
+    const { questionIndex, totalQuestions } = this.state;
+    if (questionIndex + 1 === totalQuestions) {
+      history.push('/feedback');
+    } else {
+      this.setState(
+        (prevState) => ({
+          questionIndex: prevState.questionIndex + 1,
+          counter: 30,
+          disabledButtons: false,
+          verifyAnswer: false,
+          showNextButton: false,
+        }),
+        () => {
+          this.returnFetchQuastionAnswers();
+        },
+      );
+    }
   };
 
   render() {
@@ -92,6 +130,7 @@ class Game extends React.Component {
       shuffleAnswers,
       counter,
       disabledButtons,
+      showNextButton,
     } = this.state;
 
     return (
@@ -113,7 +152,7 @@ class Game extends React.Component {
               key={ answer }
               data-testid={ this.configDataTestIdButton(answer, index) }
               className={ this.styleButton(answer) }
-              onClick={ () => this.handleClick() }
+              onClick={ () => this.handleClick(answer) }
               disabled={ disabledButtons }
             >
               { answer }
@@ -124,15 +163,29 @@ class Game extends React.Component {
           <p>Contagem Regressiva</p>
           { counter }
         </div>
+        {showNextButton && (
+          <button
+            data-testid="btn-next"
+            onClick={ this.handleNextQuestion }
+          >
+            Next
+          </button>
+        )}
       </div>
     );
   }
 }
 
+const mapStateToProps = (state) => ({
+  dispatch: state.dispatch,
+});
+
 Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+
 };
 
-export default Game;
+export default connect(mapStateToProps)(Game);

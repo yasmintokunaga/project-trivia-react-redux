@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { userLogin } from '../redux/actions';
+import './Login.css';
 
 class Login extends React.Component {
   state = {
@@ -54,6 +55,7 @@ class Login extends React.Component {
     return (
       <main>
         <input
+          className="input mr-4"
           type="text"
           name="name"
           placeholder="Nome"
@@ -62,6 +64,7 @@ class Login extends React.Component {
           value={ name }
         />
         <input
+          className="input mr-4"
           type="text"
           name="email"
           placeholder="E-mail"
@@ -70,6 +73,7 @@ class Login extends React.Component {
           value={ email }
         />
         <button
+          className="button mr-2"
           data-testid="btn-play"
           disabled={ disabledButtonEnter }
           onClick={ this.handleClick }
@@ -80,7 +84,7 @@ class Login extends React.Component {
           type="button"
           data-testid="btn-settings"
           id="btnSettings"
-          className="btnSettings"
+          className="btnSettings button is-dark"
           onClick={ this.redirectSettings }
         >
           Settings

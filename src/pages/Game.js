@@ -134,43 +134,49 @@ class Game extends React.Component {
     } = this.state;
 
     return (
-      <div>
+      <div className="game-page">
         <Header playerName={ playerName } score={ score } />
-        <h3
-          data-testid="question-category"
-        >
-          { currentQuestion.category }
-        </h3>
-        <p
-          data-testid="question-text"
-        >
-          { currentQuestion.question }
-        </p>
-        <div data-testid="answer-options">
-          { shuffleAnswers.map((answer, index) => (
-            <button
-              key={ answer }
-              data-testid={ this.configDataTestIdButton(answer, index) }
-              className={ this.styleButton(answer) }
-              onClick={ () => this.handleClick(answer) }
-              disabled={ disabledButtons }
-            >
-              { answer }
-            </button>
-          ))}
-        </div>
-        <div>
-          <p>Contagem Regressiva</p>
-          { counter }
-        </div>
-        {showNextButton && (
-          <button
-            data-testid="btn-next"
-            onClick={ this.handleNextQuestion }
+        <main className="box">
+          <h3
+            data-testid="question-category"
+            className="title is-3"
           >
-            Next
-          </button>
-        )}
+            { currentQuestion.category }
+          </h3>
+          <p
+            data-testid="question-text"
+            className="is-size-5"
+          >
+            { currentQuestion.question }
+          </p>
+          <div data-testid="answer-options" className="buttons">
+            { shuffleAnswers.map((answer, index) => (
+              <button
+                key={ answer }
+                data-testid={ this.configDataTestIdButton(answer, index) }
+                className={ `${this.styleButton(answer)}` }
+                onClick={ () => this.handleClick(answer) }
+                disabled={ disabledButtons }
+              >
+                { answer }
+              </button>
+            ))}
+          </div>
+          <div className="is-size-5">
+            <span>Tempo:</span>
+            { ' ' }
+            { counter }
+          </div>
+          {showNextButton && (
+            <button
+              data-testid="btn-next"
+              onClick={ this.handleNextQuestion }
+              className="button is-info is-outlined is-small"
+            >
+              Next
+            </button>
+          )}
+        </main>
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Ranking.css';
 
 class Ranking extends React.Component {
   state = {
@@ -22,41 +23,46 @@ class Ranking extends React.Component {
   render() {
     const { listRanking } = this.state;
     return (
-      <>
-        <h1 id="ranking" data-testid="ranking-title">Ranking</h1>
+      <main className="ranking-page">
+        <h1
+          id="ranking"
+          data-testid="ranking-title"
+          className="title is-2 has-text-white"
+        >
+          Ranking
+        </h1>
         <button
           type="button"
           data-testid="btn-go-home"
           onClick={ this.handleClick }
+          className="button is-link"
         >
           Início
         </button>
         <ul>
           { listRanking.map(({ name, gravatarEmail, score, hash }, index) => (
-            <li key={ index }>
-              <p>
-                Nome:
-                {' '}
-                <span data-testid={ `player-name-${index}` }>{ name }</span>
-              </p>
-              <p>
-                Email:
-                {' '}
-                <span>{ gravatarEmail }</span>
-              </p>
-              <p>
-                Score:
-                {' '}
-                <span data-testid={ `player-score-${index}` }>{ score }</span>
-              </p>
+            <li key={ index } className="card is-size-6">
               <img
                 src={ `https://www.gravatar.com/avatar/${hash}` }
                 alt="foto-perfil"
               />
+              <div className="m-2 li-container">
+                <p className="has-text-weight-semibold">
+                  <span data-testid={ `player-name-${index}` }>{ name }</span>
+                </p>
+                <p>
+                  <span>{ gravatarEmail }</span>
+                </p>
+                <p className="has-text-weight-semibold has-text-link">
+                  Score:
+                  {' '}
+                  <span data-testid={ `player-score-${index}` }>{ score }</span>
+                </p>
+              </div>
             </li>
           ))}
         </ul>
-      </>
+      </main>
     );
   }
 }

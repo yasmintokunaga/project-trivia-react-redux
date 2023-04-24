@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { MD5 } from 'crypto-js';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import './Feedback.css';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -34,29 +35,48 @@ class Feedback extends Component {
     const { assertions, score } = this.props;
     const THREE = 3;
     return (
-      <>
+      <div className="feedback-page">
         <Header />
-        <p data-testid="feedback-text">
-          {
-            assertions < THREE ? 'Could be better...' : 'Well Done!'
-          }
-        </p>
-        <p data-testid="feedback-total-score">{ score }</p>
-        <p data-testid="feedback-total-question">{ assertions }</p>
-        <button
-          data-testid="btn-play-again"
-          onClick={ this.handleClick }
-        >
-          Play Again
-        </button>
-        <button
-          type="button"
-          data-testid="btn-ranking"
-          onClick={ this.handleBtnRanking }
-        >
-          Ranking
-        </button>
-      </>
+        <main className="box">
+          <p
+            data-testid="feedback-text"
+            className={
+              `title is-3 ${assertions < THREE ? 'has-text-danger' : 'has-text-success'}`
+            }
+          >
+            {
+              assertions < THREE ? 'Could be better...' : 'Well Done!'
+            }
+          </p>
+          <p>
+            <span className="has-text-weight-semibold">Pontuação total:</span>
+            {' '}
+            <span data-testid="feedback-total-score">{ score }</span>
+          </p>
+          <p>
+            <span className="has-text-weight-semibold">Quantidade de acertos:</span>
+            {' '}
+            <span data-testid="feedback-total-question">{ assertions }</span>
+          </p>
+          <div>
+            <button
+              data-testid="btn-play-again"
+              onClick={ this.handleClick }
+              className="button is-link is-outlined mr-2"
+            >
+              Play Again
+            </button>
+            <button
+              type="button"
+              data-testid="btn-ranking"
+              onClick={ this.handleBtnRanking }
+              className="button is-link"
+            >
+              Ranking
+            </button>
+          </div>
+        </main>
+      </div>
     );
   }
 }

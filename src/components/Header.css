@@ -1,0 +1,14 @@
+.container-header {
+  align-items: center;
+  border-bottom: 5px solid black;
+  border-right: 5px solid black;
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  max-width: 250px;
+}
+
+.container-header img {
+  border: 3px solid rgb(122, 128, 138);
+  border-radius: 50%;
+}

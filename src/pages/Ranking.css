@@ -1,0 +1,30 @@
+ul {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 50px auto;
+}
+
+li {
+  border-bottom: 5px solid black;
+  border-radius: 5px;
+  border-right: 5px solid black;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 5px;
+  width: 300px;
+}
+
+li .li-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ranking-page {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+}

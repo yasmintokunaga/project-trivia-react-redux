@@ -9,6 +9,7 @@
     "@redux-devtools/extension": "3.2.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^13.5.0",
+    "bulma": "^0.9.4",
     "crypto-js": "^4.1.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",

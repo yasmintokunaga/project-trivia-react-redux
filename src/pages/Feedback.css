@@ -1,0 +1,18 @@
+.feedback-page {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+}
+
+.feedback-page main {
+  align-items: center;
+  border-bottom: 5px solid black;
+  border-right: 5px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  min-height: 300px;
+  width: 500px;
+}

@@ -1,3 +1,38 @@
+.game-page {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+}
+
+.game-page main {
+  align-items: center;
+  border-bottom: 5px solid black;
+  border-right: 5px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  min-height: 300px;
+  width: 500px;
+}
+
+.buttons {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 70%;
+}
+
+.buttons button {
+  background-color: rgb(75, 75, 75);
+  border-radius: 5px;
+  color: white;
+  margin: 2px;
+  min-width: 50px;
+  padding: 5px;
+}
+
 .correct-answer {
   border: 3px solid rgb(6, 240, 15);
 }

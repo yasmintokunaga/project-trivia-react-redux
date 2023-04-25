@@ -27,6 +27,7 @@ const rootReducer = (state = initialState, action) => {
         ...state.player,
         name: action.payload.name,
         gravatarEmail: action.payload.email,
+        score: 0,
       },
     };
   default:
